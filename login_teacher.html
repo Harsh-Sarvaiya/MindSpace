@@ -27,11 +27,38 @@
                 <input type="password" id="password" placeholder="Enter your password">
             </div>
             <div class="buttons">
-                <button class="sign-in">Sign in</button>
-                <button class="sign-up">Sign up</button>
+                <button class="sign-in" id="signInBtn">Sign in</button>
+                <button class="sign-up" id="signUpBtn">Sign up</button>
             </div>
         </div>
     </div>
 
+    <script type="module">
+        // Hardcoded teacher credentials
+        const teachers = [
+            { email: "ekam.taneja03@gmail.com", password: "password" },
+            { email: "hsarvaiya.work@gmail.com", password: "password" }
+        ];
+
+        // Sign in button event listener
+        document.getElementById('signInBtn').addEventListener('click', () => {
+            const emailInput = document.getElementById('email').value;
+            const passwordInput = document.getElementById('password').value;
+
+            // Check the entered credentials against hardcoded values
+            const teacher = teachers.find(teacher => 
+                teacher.email === emailInput && teacher.password === passwordInput
+            );
+
+            if (teacher) {
+                // Successful login
+                console.log('Login successful for:', emailInput);
+                window.location.href = 'thankyou.html'; // Redirect to thank you page
+            } else {
+                // Failed login
+                alert('Invalid email or password. Please try again.');
+            }
+        });
+    </script>
 </body>
 </html>
