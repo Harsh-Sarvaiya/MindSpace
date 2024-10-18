@@ -16,11 +16,38 @@
             <p>How well did you sleep last night?</p>
         </div>
         <div class="buttons">
-            <a href="thirdquestion.html" class="btn motivated">Enough, and feeling rested. ✨</a>
-            <a href="thirdquestion.html" class="btn tired">Enough, but still sleepy</a>
-            <a href="thirdquestion.html" class="btn stressed">Not enough, but sleep is for the weak</a>
-            <a href="thirdquestion.html" class="btn excited">Not enough, feeling dead inside</a>
+            <button class="btn motivated" data-emotion="Enough, and feeling rested. ✨">Enough, and feeling rested. ✨</button>
+            <button class="btn tired" data-emotion="Enough, but still sleepy">Enough, but still sleepy</button>
+            <button class="btn stressed" data-emotion="Not enough, but sleep is for the weak">Not enough, but sleep is for the weak</button>
+            <button class="btn excited" data-emotion="Not enough, feeling dead inside">Not enough, feeling dead inside</button>
         </div>
     </div>
+
+    <script type="module">
+        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
+
+        // Initialize Firebase Realtime Database
+        const database = getDatabase();
+
+        // Handle button clicks
+        document.querySelectorAll('.btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const sleepResponse = this.getAttribute('data-emotion');
+                const studentID = localStorage.getItem('studentID'); // Retrieve the Student ID from localStorage
+
+                // Store the response in Firebase under the specific studentID
+                set(ref(database, `responses/${studentID}/how_sleep`), {
+                    question: "How well did you sleep last night?",
+                    answer: sleepResponse
+                }).then(() => {
+                    console.log('Sleep quality submitted:', sleepResponse);
+                    // Redirect to the next question
+                    window.location.href = 'thirdquestion.html'; // Navigate to the next question page
+                }).catch((error) => {
+                    console.error('Error submitting sleep quality:', error);
+                });
+            });
+        });
+    </script>
 </body>
 </html>

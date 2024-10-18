@@ -17,11 +17,41 @@
             <p>How are you feeling today?</p>
         </div>
         <div class="buttons">
-            <a href="secondquestion.html" class="btn motivated">Motivated 😊</a>
-            <a href="secondquestion.html" class="btn tired">Tired 🥤</a>
-            <a href="secondquestion.html" class="btn stressed">Stressed ❗</a>
-            <a href="secondquestion.html" class="btn excited">Excited ✨</a>
+            <button class="btn motivated" data-emotion="Motivated 😊">Motivated 😊</button>
+            <button class="btn tired" data-emotion="Tired 🥤">Tired 🥤</button>
+            <button class="btn stressed" data-emotion="Stressed ❗">Stressed ❗</button>
+            <button class="btn excited" data-emotion="Excited ✨">Excited ✨</button>
         </div>
     </div>
+
+    <script type="module">
+        import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
+
+        // Initialize Firebase Realtime Database
+        const database = getDatabase();
+
+        // Handle button clicks
+        document.querySelectorAll('.btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const emotion = this.getAttribute('data-emotion');
+                const studentID = localStorage.getItem('studentID'); // Retrieve the Student ID from localStorage
+
+                // Create a reference to the student's responses
+                const studentRef = ref(database, `responses/${studentID}`);
+
+                // Store the response in Firebase under the specific studentID
+                push(studentRef, {
+                    question: "How are you feeling today?",
+                    answer: emotion
+                }).then(() => {
+                    console.log('Emotion submitted:', emotion);
+                    // Redirect to the next question
+                    window.location.href = 'secondquestion.html'; // Navigate to the next question page
+                }).catch((error) => {
+                    console.error('Error submitting emotion:', error);
+                });
+            });
+        });
+    </script>
 </body>
 </html>

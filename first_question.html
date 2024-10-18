@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Emotion Selection</title>
     <link rel="stylesheet" href="styles.css">
-    <script type="module" src="firebase.js"></script> 
+    <script type="module" src="firebase.js"></script>
 </head>
 <body>
     <div class="container">
@@ -17,11 +17,38 @@
             <p>How are you feeling today?</p>
         </div>
         <div class="buttons">
-            <a href="secondquestion.html" class="btn motivated">Motivated 😊</a>
-            <a href="secondquestion.html" class="btn tired">Tired 🥤</a>
-            <a href="secondquestion.html" class="btn stressed">Stressed ❗</a>
-            <a href="secondquestion.html" class="btn excited">Excited ✨</a>
+            <button class="btn motivated" data-emotion="Motivated 😊">Motivated 😊</button>
+            <button class="btn tired" data-emotion="Tired 🥤">Tired 🥤</button>
+            <button class="btn stressed" data-emotion="Stressed ❗">Stressed ❗</button>
+            <button class="btn excited" data-emotion="Excited ✨">Excited ✨</button>
         </div>
     </div>
+
+    <script type="module">
+        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
+
+        // Initialize Firebase Realtime Database
+        const database = getDatabase();
+
+        // Handle button clicks
+        document.querySelectorAll('.btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const emotionResponse = this.getAttribute('data-emotion');
+                const studentID = localStorage.getItem('studentID'); // Retrieve the Student ID from localStorage
+
+                // Store the response in Firebase under the specific studentID
+                set(ref(database, `responses/${studentID}/how_feeling`), {
+                    question: "How are you feeling today?",
+                    answer: emotionResponse
+                }).then(() => {
+                    console.log('Emotion submitted:', emotionResponse);
+                    // Redirect to the next question
+                    window.location.href = 'secondquestion.html'; // Navigate to the next question page
+                }).catch((error) => {
+                    console.error('Error submitting emotion:', error);
+                });
+            });
+        });
+    </script>
 </body>
 </html>

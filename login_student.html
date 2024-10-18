@@ -23,10 +23,22 @@
                 <input type="text" id="student-id" placeholder="Enter your Student ID">
             </div>
             <div class="buttons">
-                <button class="sign-in" onclick="window.location.href='first_question.html'">Sign in</button>
+                <button class="sign-in" id="sign-in-btn">Sign in</button>
             </div>
         </div>
     </div>
 
+    <script>
+        // Handle sign-in button click
+        document.getElementById('sign-in-btn').addEventListener('click', function() {
+            const studentID = document.getElementById('student-id').value; // Get the value from the input
+            if (studentID) {
+                localStorage.setItem('studentID', studentID); // Store the Student ID in localStorage
+                window.location.href = 'first_question.html'; // Redirect to the first question page
+            } else {
+                alert('Please enter your Student ID.'); // Alert if the Student ID is empty
+            }
+        });
+    </script>
 </body>
 </html>

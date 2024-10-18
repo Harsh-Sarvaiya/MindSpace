@@ -17,10 +17,40 @@
             <p>How shall we start?</p>
         </div>
         <div class="buttons">
-            <a href="thankyou.html" class="btn motivated">Locked in, Let's go!</a>
-            <a href="thankyou.html" class="btn tired">Nice and slow please.</a>
-            <a href="thankyou.html" class="btn excited">I am not sure</a>
+            <button class="btn motivated" data-emotion="Locked in, Let's go!">Locked in, Let's go!</button>
+            <button class="btn tired" data-emotion="Nice and slow please.">Nice and slow please.</button>
+            <button class="btn excited" data-emotion="I am not sure">I am not sure</button>
         </div>
     </div>
+
+    <script type="module">
+        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
+
+        // Initialize Firebase Realtime Database
+        const database = getDatabase();
+
+        // Handle button clicks
+        document.querySelectorAll('.btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const startResponse = this.getAttribute('data-emotion');
+                const studentID = localStorage.getItem('studentID'); // Retrieve the Student ID from localStorage
+
+                // Create a reference to the student's responses
+                const studentRef = ref(database, `responses/${studentID}`);
+
+                // Store the response in Firebase using a descriptive key
+                set(ref(database, `responses/${studentID}/how_start`), {
+                    question: "How shall we start?",
+                    answer: startResponse
+                }).then(() => {
+                    console.log('Start response submitted:', startResponse);
+                    // Redirect to the thank you page
+                    window.location.href = 'thankyou.html'; // Navigate to the thank you page
+                }).catch((error) => {
+                    console.error('Error submitting start response:', error);
+                });
+            });
+        });
+    </script>
 </body>
 </html>
