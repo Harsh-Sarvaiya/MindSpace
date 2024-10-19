@@ -34,6 +34,9 @@
         // Initialize Firebase Realtime Database
         const database = getDatabase();
 
+        // Hardcoded valid student IDs
+        const validStudentIDs = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+
         // Function to check if the student can take the survey
         function checkSurveyEligibility(studentID) {
             const studentRef = ref(database, `responses/${studentID}/completion_time`);
@@ -75,12 +78,17 @@
         // Handle sign-in button click
         document.getElementById('sign-in-btn').addEventListener('click', function() {
             const studentID = document.getElementById('student-id').value; // Get the value from the input
+            
             if (studentID) {
-                checkSurveyEligibility(studentID); // Check eligibility before proceeding
+                if (validStudentIDs.includes(studentID)) {
+                    checkSurveyEligibility(studentID); // Check eligibility before proceeding
+                } else {
+                    alert('Invalid Student ID. Please enter a valid ID.'); // Alert if the Student ID is not in the list
+                }
             } else {
                 alert('Please enter your Student ID.'); // Alert if the Student ID is empty
             }
-        });
+        });    
     </script>
 </body>
 </html>
