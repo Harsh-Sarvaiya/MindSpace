@@ -43,6 +43,10 @@
                     question: "How shall we start?",
                     answer: startResponse
                 }).then(() => {
+                    // Set the completion timestamp
+                    const completionTime = new Date().getTime(); // Current time in milliseconds
+                    set(ref(database, `responses/${studentID}/completion_time`), completionTime);
+
                     console.log('Start response submitted:', startResponse);
                     // Redirect to the thank you page
                     window.location.href = 'thankyou.html'; // Navigate to the thank you page

@@ -11,7 +11,6 @@
     <div class="container">
         <div class="header">
             <img src="assets/logo_main_no_background.png" alt="Company Icon" class="icon">
-        </div>
         <div class="question">
             <p>Hi Oski,</p>
             <p>How are you feeling today?</p>
@@ -25,7 +24,7 @@
     </div>
 
     <script type="module">
-        import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
+        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
 
         // Initialize Firebase Realtime Database
         const database = getDatabase();
@@ -36,11 +35,8 @@
                 const emotion = this.getAttribute('data-emotion');
                 const studentID = localStorage.getItem('studentID'); // Retrieve the Student ID from localStorage
 
-                // Create a reference to the student's responses
-                const studentRef = ref(database, `responses/${studentID}`);
-
                 // Store the response in Firebase under the specific studentID
-                push(studentRef, {
+                set(ref(database, `responses/${studentID}/how_feeling`), {
                     question: "How are you feeling today?",
                     answer: emotion
                 }).then(() => {
