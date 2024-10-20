@@ -34,31 +34,41 @@
     </div>
 
     <script type="module">
-        // Hardcoded teacher credentials
-        const teachers = [
-            { email: "bmadesh03@gmail.com", password: "password" },
-            { email: "harshsemail@gmail.com", password: "password" }
-        ];
+    // Hardcoded teacher credentials
+    const teachers = [
+        { email: "ekam.taneja03@gmail.com", password: "password" },
+        { email: "hsarvaiya.work@gmail.com", password: "password" }
+    ];
 
-        // Sign in button event listener
-        document.getElementById('signInBtn').addEventListener('click', () => {
-            const emailInput = document.getElementById('email').value;
-            const passwordInput = document.getElementById('password').value;
+    // Function to handle the sign-in process
+    function signIn() {
+        const emailInput = document.getElementById('email').value;
+        const passwordInput = document.getElementById('password').value;
 
-            // Check the entered credentials against hardcoded values
-            const teacher = teachers.find(teacher => 
-                teacher.email === emailInput && teacher.password === passwordInput
-            );
+        // Check the entered credentials against hardcoded values
+        const teacher = teachers.find(teacher => 
+            teacher.email === emailInput && teacher.password === passwordInput
+        );
 
-            if (teacher) {
-                // Successful login
-                console.log('Login successful for:', emailInput);
-                window.location.href = 'teacher_dashboard1.html'; // Redirect to the teacher dashboard page
-            } else {
-                // Failed login
-                alert('Invalid email or password. Please try again.');
-            }
-        });
-    </script>
+        if (teacher) {
+            // Successful login
+            console.log('Login successful for:', emailInput);
+            window.location.href = 'teacher_dashboard1.html'; // Redirect to the teacher dashboard page
+        } else {
+            // Failed login
+            alert('Invalid email or password. Please try again.');
+        }
+    }
+
+    // Sign in button event listener
+    document.getElementById('signInBtn').addEventListener('click', signIn);
+
+    // Add event listener for pressing "Enter" key
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+            signIn(); // Trigger sign-in when Enter is pressed
+        }
+    });
+</script>
 </body>
 </html>
