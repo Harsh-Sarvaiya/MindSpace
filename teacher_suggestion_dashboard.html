@@ -132,11 +132,29 @@
                 });
 
                 // Prepare the prompt for the AI model
-                const prompt = `Based on the following responses: 
+                const prompt = `A class of students were asked the following questions:
+                How are you feeling today? (emotion) Possible responses:
+                    Motivated.
+                    Tired.
+                    Stressed.
+                    Excited.
+                How well did you sleep last night? (sleep) Possible responses:
+                    Enough and feeling rested.
+                    Enough, but still sleepy.
+                    Not enough, but sleep is for the weak.
+                    Not enough, feeling dead inside.
+                How shall we start? (mood) Possible responses:
+                    Locked in, let's go!
+                    Nice and slow please.
+                    I am not sure.
+                
+                
+                Based on the following responses: 
                 Emotion Counts: ${JSON.stringify(emotionCounts)}, 
                 Sleep Counts: ${JSON.stringify(sleepCounts)}, 
                 Mood Counts: ${JSON.stringify(moodCounts)}, 
-                what suggestions can you give to the teacher?`;
+                What suggestions can you give to the teacher?
+                Please provide a two to three sentence suggestion.`;
 
                 // Call the AI model to get suggestions
                 console.log('Preparing prompt for AI model:', prompt);
