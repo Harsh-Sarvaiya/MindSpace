@@ -11,10 +11,10 @@
     <div class="container">
         <div class="header">
             <img src="assets/logo_main_no_background.png" alt="Company Icon" class="icon">
-        <div class="question">
-            <p>Hi Oski,</p>
-            <p>How are you feeling today? 🤔</p>
-        </div>
+            <div class="question">
+                <p id="greeting">Hi,</p>
+                <p>How are you feeling today? 🤔</p>
+            </div>
         <div class="buttons">
             <button class="btn motivated" data-emotion="Motivated 😊">Motivated 😊</button>
             <button class="btn tired" data-emotion="Tired 🥤">Tired 🥤</button>
@@ -28,6 +28,10 @@
 
         // Initialize Firebase Realtime Database
         const database = getDatabase();
+
+        // Set the greeting to the student's number
+        const studentID = localStorage.getItem('studentID');
+        document.getElementById('greeting').textContent = `Hi Student No.${studentID},`;
 
         // Handle button clicks
         document.querySelectorAll('.btn').forEach(button => {
