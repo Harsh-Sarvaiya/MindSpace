@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Suggestion Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 640px;
+            text-align: center;
+            position: relative;
+        }
+        .container h2 {
+            margin-bottom: 20px;
+        }
+        .suggestion-box {
+            border: 2px solid #007bff;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 10px;
+            background-color: #fefefe;
+            color: #333;
+        }
+        .suggestion-box h3 {
+            margin: 0;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        /* Arrow button style */
+        .arrow-button {
+            position: fixed; /* Fixed position at bottom-right */
+            bottom: 20px;
+            right: 20px;
+            font-size: 24px;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+        .arrow-button svg {
+            width: 30px;
+            height: 30px;
+            fill: #333;
+        }
+        .arrow-button:hover svg {
+            fill: #000;
+        }
+    </style>
+    <script type="module" src="firebase.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h2>Hi Teacher</h2>
+        <p>Below are the results from your class today:</p>
+
+        <div class="suggestion-box">
+            <h3>Gemini AI Suggestion:</h3>
+            <p id="ai-suggestion">Loading AI suggestion...</p>
+        </div>
+    </div>
+
+    <script type="module">
+        import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
+
+        // Initialize Firebase Realtime Database
+        const database = getDatabase();
+
+        // Fetch AI suggestion from Firebase
+        const suggestionRef = ref(database, 'ai_suggestions/gemini');
+
+        get(suggestionRef).then(snapshot => {
+            if (snapshot.exists()) {
+                const suggestion = snapshot.val();
+                document.getElementById('ai-suggestion').textContent = suggestion.text;
+            } else {
+                document.getElementById('ai-suggestion').textContent = 'No suggestion available at the moment.';
+            }
+        }).catch(error => {
+            console.error('Error fetching AI suggestion:', error);
+            document.getElementById('ai-suggestion').textContent = 'Error loading suggestion.';
+        });
+    </script>
+</body>
+</html>

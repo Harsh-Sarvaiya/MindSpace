@@ -1,2 +1,0 @@
-# MindSpace
-Calhacks Project

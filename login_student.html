@@ -34,9 +34,6 @@
         // Initialize Firebase Realtime Database
         const database = getDatabase();
 
-        // Hardcoded valid student IDs
-        const validStudentIDs = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
-
         // Function to check if the student can take the survey
         function checkSurveyEligibility(studentID) {
             const studentRef = ref(database, `responses/${studentID}/completion_time`);
@@ -45,7 +42,7 @@
                 if (snapshot.exists()) {
                     const completionTime = snapshot.val();
                     const currentTime = new Date().getTime();
-                    const cooldownPeriod =  60 * 1000; // Example: 1 minute in milliseconds
+                    const cooldownPeriod =  (2 * 60) * 1000; // Example: 2 minute in milliseconds
 
                     // Check if the cooldown period has expired
                     if (currentTime - completionTime < cooldownPeriod) {
@@ -78,17 +75,12 @@
         // Handle sign-in button click
         document.getElementById('sign-in-btn').addEventListener('click', function() {
             const studentID = document.getElementById('student-id').value; // Get the value from the input
-            
             if (studentID) {
-                if (validStudentIDs.includes(studentID)) {
-                    checkSurveyEligibility(studentID); // Check eligibility before proceeding
-                } else {
-                    alert('Invalid Student ID. Please enter a valid ID.'); // Alert if the Student ID is not in the list
-                }
+                checkSurveyEligibility(studentID); // Check eligibility before proceeding
             } else {
                 alert('Please enter your Student ID.'); // Alert if the Student ID is empty
             }
-        });    
+        });
     </script>
 </body>
 </html>
