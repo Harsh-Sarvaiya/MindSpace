@@ -76,7 +76,13 @@
         function handleSignIn() {
             const studentID = document.getElementById('student-id').value; // Get the value from the input
             if (studentID) {
-                checkSurveyEligibility(studentID); // Check eligibility before proceeding
+                // Convert studentID to a number and check if it's within the valid range (0-9)
+                const studentIDNumber = Number(studentID);
+                if (!isNaN(studentIDNumber) && studentIDNumber >= 0 && studentIDNumber <= 9) {
+                    checkSurveyEligibility(studentID); // Check eligibility before proceeding
+                } else {
+                    alert('Student ID must be a number between 0 and 9.'); // Alert if the ID is out of range
+                }
             } else {
                 alert('Please enter your Student ID.'); // Alert if the Student ID is empty
             }
@@ -89,7 +95,7 @@
             if (event.key === 'Enter') {
                 handleSignIn(); // Trigger sign-in when Enter is pressed
             }
-    });
-</script>
+        });
+    </script>
 </body>
 </html>
