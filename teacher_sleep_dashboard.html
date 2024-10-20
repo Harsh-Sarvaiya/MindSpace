@@ -78,12 +78,12 @@
         <p>Below are the results from your class today:</p>
 
         <div class="bar rested">
-            <span>Enough, and feeling rested. ✨</span>
+            <span>Enough, and feeling rested ✨</span>
             <span class="percentage" id="rested">0%</span>
         </div>
         <div class="bar still_sleepy">
             <span>Enough, but still sleepy 💤</span>
-            <span class="percentage" id="still_sleepy">0%</span>
+            <span class="percentage" id="sleepy">0%</span>
         </div>
         <div class="bar weak">
             <span>Not enough, but sleep is for the weak 💤</span>
@@ -91,7 +91,7 @@
         </div>
         <div class="bar dead_inside">
             <span>Not enough, feeling dead inside 😵</span>
-            <span class="percentage" id="dead_inside">0%</span>
+            <span class="percentage" id="inside">0%</span>
         </div>
 
         <!-- Arrow button to go back to the main another page -->
@@ -114,27 +114,26 @@
                 const responses = snapshot.val();
                 let totalResponses = 0;
                 let sleepCounts = {
-                    Rested: 0,
-                    Still_sleepy: 0,
-                    Weak: 0,
-                    Dead_inside: 0
+                    rested: 0,
+                    sleepy: 0,
+                    weak: 0,
+                    inside: 0
                 };
 
                 // Count sleep responses
                 Object.values(responses).forEach(response => {
-                    const sleepResponse = response.how_sleep.answer.split(',')[0]; // Extract the response
-                    if (sleepResponse.includes("rested")) sleepCounts.Rested++;
-                    else if (sleepResponse.includes("still sleepy")) sleepCounts.Still_sleepy++;
-                    else if (sleepResponse.includes("weak")) sleepCounts.Weak++;
-                    else if (sleepResponse.includes("dead inside")) sleepCounts.Dead_inside++;
-                    totalResponses++;
+                    const sleepResponse = response.how_sleep.answer.split(' ')[0]; // Extract the response
+                    if (sleepCounts[sleepResponse] !== undefined) {
+                        sleepCounts[sleepResponse]++;
+                        totalResponses++;
+                    }
                 });
 
                 // Calculate and display percentages
-                document.getElementById('rested').textContent = `${((sleepCounts.Rested / totalResponses) * 100).toFixed(1)}%`;
-                document.getElementById('still_sleepy').textContent = `${((sleepCounts.Still_sleepy / totalResponses) * 100).toFixed(1)}%`;
-                document.getElementById('weak').textContent = `${((sleepCounts.Weak / totalResponses) * 100).toFixed(1)}%`;
-                document.getElementById('dead_inside').textContent = `${((sleepCounts.Dead_inside / totalResponses) * 100).toFixed(1)}%`;
+                document.getElementById('rested').textContent = `${((sleepCounts.rested / totalResponses) * 100).toFixed(1)}%`;
+                document.getElementById('sleepy').textContent = `${((sleepCounts.sleepy / totalResponses) * 100).toFixed(1)}%`;
+                document.getElementById('weak').textContent = `${((sleepCounts.weak / totalResponses) * 100).toFixed(1)}%`;
+                document.getElementById('inside').textContent = `${((sleepCounts.inside / totalResponses) * 100).toFixed(1)}%`;
             } else {
                 console.log('No data available');
             }

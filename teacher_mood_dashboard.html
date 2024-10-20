@@ -76,15 +76,15 @@
 
         <div class="bar locked">
             <span>Locked in, Let's go! 🚀</span>
-            <span class="percentage" id="locked">0%</span>
+            <span class="percentage" id="Locked">0%</span>
         </div>
         <div class="bar slow">
             <span>Nice and slow please. 🐢</span>
-            <span class="percentage" id="slow">0%</span>
+            <span class="percentage" id="Nice">0%</span>
         </div>
         <div class="bar dead_inside">
-            <span>Not enough, feeling dead inside 😵</span>
-            <span class="percentage" id="dead_inside">0%</span>
+            <span>I am not sure. 😕</span>
+            <span class="percentage" id="I">0%</span>
         </div>
 
         <!-- Arrow button can direct to Gemini ai page if  -->
@@ -109,23 +109,23 @@
                 let totalResponses = 0;
                 let moodCounts = {
                     Locked: 0,
-                    Slow: 0,
-                    Dead_inside: 0
+                    Nice: 0,
+                    I: 0
                 };
 
                 // Count mood responses
                 Object.values(responses).forEach(response => {
-                    const moodResponse = response.how_mood.answer.split(',')[0]; // Extract the response
-                    if (moodResponse.includes("Locked in")) moodCounts.Locked++;
-                    else if (moodResponse.includes("Nice and slow")) moodCounts.Slow++;
-                    else if (moodResponse.includes("dead inside")) moodCounts.Dead_inside++;
-                    totalResponses++;
+                    const moodResponse = response.how_start.answer.split(' ')[0]; // Extract the response
+                    if (moodCounts[moodResponse] !== undefined) {
+                        moodCounts[moodResponse]++;
+                        totalResponses++;
+                    }
                 });
 
                 // Calculate and display percentages
-                document.getElementById('locked').textContent = `${((moodCounts.Locked / totalResponses) * 100).toFixed(1)}%`;
-                document.getElementById('slow').textContent = `${((moodCounts.Slow / totalResponses) * 100).toFixed(1)}%`;
-                document.getElementById('dead_inside').textContent = `${((moodCounts.Dead_inside / totalResponses) * 100).toFixed(1)}%`;
+                document.getElementById('Locked').textContent = `${((moodCounts.Locked / totalResponses) * 100).toFixed(1)}%`;
+                document.getElementById('Nice').textContent = `${((moodCounts.Nice / totalResponses) * 100).toFixed(1)}%`;
+                document.getElementById('I').textContent = `${((moodCounts.I / totalResponses) * 100).toFixed(1)}%`;
             } else {
                 console.log('No data available');
             }
